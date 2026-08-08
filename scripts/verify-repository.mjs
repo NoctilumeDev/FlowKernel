@@ -9,6 +9,7 @@ const requiredFiles = [
   "CODE_OF_CONDUCT.md",
   "CONTRIBUTING.md",
   "SECURITY.md",
+  "docs/conceptual-origin.md",
   "docs/vision.md",
   "docs/research-questions.md",
   "docs/architecture-hypotheses.md",
@@ -76,7 +77,11 @@ const readme = fs.readFileSync(path.join(root, "README.md"), "utf8");
 if (!readme.includes("**Evidence state: Planned. Implementation has not started.**")) {
   fail("README.md: canonical planning state is missing");
 }
-for (const link of ["docs/prior-art.md", "docs/threat-model.md"]) {
+for (const link of [
+  "docs/conceptual-origin.md",
+  "docs/prior-art.md",
+  "docs/threat-model.md",
+]) {
   if (!readme.includes(link)) fail(`README.md: navigation is missing ${link}`);
 }
 

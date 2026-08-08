@@ -72,6 +72,7 @@ flowchart TD
 
 ## 文档
 
+- [概念起源](docs/conceptual-origin.md)
 - [愿景与边界](docs/vision.md)
 - [研究问题](docs/research-questions.md)
 - [架构假设](docs/architecture-hypotheses.md)
