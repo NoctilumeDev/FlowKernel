@@ -1,0 +1,66 @@
+name: Research proposal
+description: Propose a research question, hypothesis, baseline, or experiment.
+title: "research: "
+labels:
+  - research
+body:
+  - type: markdown
+    attributes:
+      value: FlowKernel is in research planning. Describe a testable question rather than a claimed feature.
+  - type: dropdown
+    id: status
+    attributes:
+      label: Current evidence state
+      options:
+        - Idea
+        - Planned
+        - Designed
+        - Prototype
+        - Validated
+        - Rejected
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: State the concrete question and why existing mechanisms may be insufficient.
+    validations:
+      required: true
+  - type: textarea
+    id: baseline
+    attributes:
+      label: Baseline and prior work
+      description: Identify the deterministic baseline, related systems, or literature to compare.
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Falsifiable hypothesis
+      description: Explain what result would support or reject the hypothesis.
+    validations:
+      required: true
+  - type: textarea
+    id: experiment
+    attributes:
+      label: Proposed experiment
+      description: Include variables, workload, metrics, resource boundary, seeds, and failure cases.
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety and fallback
+      description: List hard invariants, forbidden actions, deterministic fallback, and rollback.
+    validations:
+      required: true
+  - type: checkboxes
+    id: honesty
+    attributes:
+      label: Evidence boundary
+      options:
+        - label: I have separated planned work from validated evidence.
+          required: true
+        - label: This proposal does not include credentials, private data, or undisclosed vulnerabilities.
+          required: true

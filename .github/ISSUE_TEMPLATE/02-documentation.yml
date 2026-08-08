@@ -1,0 +1,27 @@
+name: Documentation correction
+description: Report an error, ambiguity, stale link, or misleading status claim.
+title: "docs: "
+labels:
+  - documentation
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Document location
+      placeholder: README.md or docs/vision.md#section
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Explain what is incorrect, ambiguous, stale, or overstated.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: Provide sources or a proposed wording when available.
+    validations:
+      required: true
