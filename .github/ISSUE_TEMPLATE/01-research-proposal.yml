@@ -1,8 +1,6 @@
 name: Research proposal
 description: Propose a research question, hypothesis, baseline, or experiment.
 title: "research: "
-labels:
-  - research
 body:
   - type: markdown
     attributes:
