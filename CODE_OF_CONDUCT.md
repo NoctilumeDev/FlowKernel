@@ -1,6 +1,6 @@
 # 社区行为准则
 
-PlainJournalPro 的讨论应保持专业、具体和可验证。参与 Issue、Pull Request、设计评审
+FlowKernel 的讨论应保持专业、具体和可验证。参与 Issue、Pull Request、设计评审
 或安全报告时，请遵守以下规则：
 
 - 聚焦领域边界、代码、证据和可复现步骤，不攻击或贬低参与者；

@@ -3,7 +3,7 @@
 > A long-horizon systems research repository exploring lifecycle-aware,
 > continuity-preserving, and AI-assisted resource scheduling.
 
-**Status: research planning. Implementation has not started.**
+**Evidence state: Planned. Implementation has not started.**
 
 FlowKernel（流核）研究一个长期问题：操作系统能否不仅观察任务消耗了多少资源，还能理解
 任务所处的生命周期、真实进展和连续运行价值，并据此改进长期资源策略。
@@ -58,17 +58,17 @@ flowchart TD
 
 | 阶段 | 研究目标 | 当前状态 |
 | --- | --- | --- |
-| R0 | 建立传统调度器、静态规则和工作负载基线 | 计划 |
-| R1 | 单机生命周期观测与手写策略 | 计划 |
-| R2 | `sched_ext`、cgroup 与容器控制实验 | 计划 |
-| R3 | 状态筛选、Attention 与可解释观测 | 计划 |
-| R4 | 模仿学习、强化学习与确定性 Guard | 计划 |
-| R5 | 多节点放置、检查点、迁移与恢复 | 计划 |
-| R6 | 故障注入、公平性、连续性与奖励投机验证 | 计划 |
-| R7 | 面向 Agent、模型训练和推理的专项 workload | 计划 |
+| R0 | 建立传统调度器、静态规则和工作负载基线 | Planned |
+| R1 | 单机生命周期观测与手写策略 | Planned |
+| R2 | `sched_ext`、cgroup 与容器控制实验 | Planned |
+| R3 | 状态筛选、Attention 与可解释观测 | Planned |
+| R4 | 模仿学习、强化学习与确定性 Guard | Planned |
+| R5 | 多节点放置、检查点、迁移与恢复 | Planned |
+| R6 | 故障注入、公平性、连续性与奖励投机验证 | Planned |
+| R7 | 面向 Agent、模型训练和推理的专项 workload | Planned |
 
 阶段编号表示依赖关系，不代表承诺日期。每一阶段只有形成可重复实验和对照证据后，才会
-从“计划”更新为“已验证”。
+从 `Planned` 更新为 `Validated`。
 
 ## 文档
 
@@ -77,6 +77,8 @@ flowchart TD
 - [架构假设](docs/architecture-hypotheses.md)
 - [实验路线](docs/experiment-roadmap.md)
 - [证据规则](docs/evidence-policy.md)
+- [前人工作与阅读地图](docs/prior-art.md)
+- [威胁模型与安全不变量](docs/threat-model.md)
 
 ## 项目谱系
 
