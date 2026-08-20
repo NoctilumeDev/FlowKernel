@@ -10,6 +10,7 @@ const requiredFiles = [
   "CONTRIBUTING.md",
   "SECURITY.md",
   "docs/conceptual-origin.md",
+  "docs/c-first-kernel-contract.md",
   "docs/vision.md",
   "docs/research-questions.md",
   "docs/architecture-hypotheses.md",
@@ -79,6 +80,7 @@ if (!readme.includes("**Evidence state: Planned. Implementation has not started.
 }
 for (const link of [
   "docs/conceptual-origin.md",
+  "docs/c-first-kernel-contract.md",
   "docs/prior-art.md",
   "docs/threat-model.md",
 ]) {
