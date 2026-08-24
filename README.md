@@ -1,5 +1,9 @@
 # FlowKernel
 
+[![Repository gates](https://github.com/NoctilumeDev/FlowKernel/actions/workflows/repository-gates.yml/badge.svg)](https://github.com/NoctilumeDev/FlowKernel/actions/workflows/repository-gates.yml)
+[![Status](https://img.shields.io/badge/evidence-planned-6f624b)](#实现契约)
+[![License](https://img.shields.io/badge/license-Apache--2.0-4f7668)](./LICENSE)
+
 > A planned C-first experimental kernel researching lifecycle-aware,
 > continuity-preserving, and AI-assisted resource scheduling.
 
