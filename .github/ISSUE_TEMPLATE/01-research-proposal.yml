@@ -49,8 +49,15 @@ body:
   - type: textarea
     id: safety
     attributes:
-      label: Safety and fallback
-      description: List hard invariants, forbidden actions, deterministic fallback, and rollback.
+      label: Authority, containment, and fallback
+      description: List principals, capabilities, hard invariants, forbidden actions, blast radius, deterministic fallback, and rollback.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Execution and evidence boundary
+      description: Explain how authorization, execution result, provenance, external readback, and unresolved outcomes remain distinct.
     validations:
       required: true
   - type: checkboxes
