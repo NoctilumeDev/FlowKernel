@@ -68,9 +68,67 @@ R0 还必须先固定受限 C 子集、工具链、启动契约和传统对照�
 FlowKernel 才会从概念来源进入最小内核实现。应用层项目可以提供 workload、故障模式和
 资源边界样本，但它们只是问题来源与候选控制组，不是操作系统研究已经成立的证明。
 
+## 范围怎样继续演化
+
+FlowKernel 的公开历史没有从一开始就包含完整的 AI Execution OS 设想。当前范围由几次可以
+追溯的工程问题逐步扩展：
+
+```text
+Phase 1
+应用生命周期
+  -> 长任务连续性
+  -> 生命周期感知资源策略
+
+Phase 2
+C-first target
+  -> deterministic Guard
+  -> bounded learned proposal
+
+Phase 3
+八仓归档与 Protecting Zero
+  -> 独立证据
+  -> Human is not an Oracle
+  -> proposal / execution / fact 分离
+
+Phase 4
+fresh checkout 与归档生存性
+  -> Principal / capability / provenance
+  -> 维护者与凭据迁移
+  -> compromised principal
+  -> no unchecked authority
+```
+
+Phase 1 和 Phase 2 形成了当前仓库原有的 C-first 资源策略骨架。Phase 3 和 Phase 4 没有证明
+新架构已经可行，只是把研究问题推进为：一个会误判的人、会幻觉的模型、会 reward hack 的
+策略和会崩溃的服务，能否在同一执行系统里参与决策，却不能未经授权和验收把判断升级为系统
+事实？
+
+这次演化保留三条连续性：
+
+- 资源调度仍是第一个可比较研究方向，不被新术语吞掉；
+- C-first 可信核心仍负责机制、完整调停、隔离与回退，不负责“变聪明”；
+- 新思想先改变契约、威胁模型和实验顺序，不能被写成已经存在的内核模块。
+
+本轮演化使用的工程材料也固定在公开历史坐标上：
+
+- 主页三篇文章分别讨论[协同能力](https://github.com/NoctilumeDev/NoctilumeDev/blob/281aaa9e3124b5c4018c3a7b1e63bf6edcc284a9/docs/from-tool-gain-to-collaborative-compounding.pdf)、
+  [事实资格](https://github.com/NoctilumeDev/NoctilumeDev/blob/281aaa9e3124b5c4018c3a7b1e63bf6edcc284a9/docs/protecting-zero-from-answer-to-fact.pdf)
+  和[对抗性验收](https://github.com/NoctilumeDev/NoctilumeDev/blob/281aaa9e3124b5c4018c3a7b1e63bf6edcc284a9/docs/adversarial-engineering-validation.pdf)；
+- [VeriTrail 的证据模型](https://github.com/NoctilumeDev/VeriTrail/blob/f50d5e1abfc8fc052a36a5be1d5e09047625ebbf/docs/01-evidence-model.md)
+  提供 Subject、Run、Evidence 与 Verdict 的分层参照；
+- [MiniSpringBoot 的教学到工程化实验](https://github.com/NoctilumeDev/MiniSpringBoot/blob/946725ed80fed4a364f86d65e4b98962322345e7/docs/teaching-to-engineering.md)
+  说明复杂度必须由真实失败空间获得资格，并在越过目标边界时停止；
+- [PlainJournal 的 32 GiB 延期协议](https://github.com/NoctilumeDev/PlainJournal/blob/dd5a2f5649265595b4005a9bd451050801c01a37/docs/32gib-extended-validation-runbook.md)
+  提供资源停止线、历史证据不回写和新宿主追加证据线的现场样本。
+
+这些材料解释研究问题从哪里来，不证明 FlowKernel 已经实现或验证了对应机制。
+
+详细边界见 [执行操作系统宪法](execution-os-constitution.md)。
+
 ## 与其他文档的关系
 
 - [愿景与边界](vision.md) 定义研究对象、Fast Path 和 Slow Path；
+- [执行操作系统宪法](execution-os-constitution.md) 定义 Principal、权限、状态轴、来源与恢复边界；
 - [C-first 内核契约](c-first-kernel-contract.md) 定义语言、生命周期、Guard 和回退边界；
 - [架构假设](architecture-hypotheses.md) 列出等待验证的结构；
 - [前人工作与阅读地图](prior-art.md) 约束新颖性判断；

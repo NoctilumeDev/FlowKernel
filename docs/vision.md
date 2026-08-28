@@ -6,29 +6,40 @@
 负载均衡。长周期 Agent、编译、测试、训练和推理 workload 则会暴露另一类问题：两个
 资源占用相似的任务，可能分别处于“接近检查点并持续收敛”和“重复失败且没有进展”的状态。
 
-FlowKernel 的长期目标是构建一个 C-first 实验内核，研究系统能否在不放弃确定性安全边界
-的前提下，将生命周期和长期进展加入资源策略。
+FlowKernel 的长期目标是构建一个 C-first 实验内核，研究系统能否在不放弃确定性权限、
+资源、隔离和恢复边界的前提下，让不完全可靠的策略源参与长期资源与执行决策。
 
-核心研究问题是：
+原始资源研究问题仍然是：
 
 > Can an operating system understand not only how much resource a workload
 > consumes, but also where that workload is in its lifecycle, whether it is
 > making meaningful progress, and whether preserving its continuity is more
 > valuable than maximizing short-term utilization?
 
+后续工程实践把它推进为更上游的问题：
+
+> How can fallible intelligence act without becoming sovereign?
+
+后一个问题不取消前一个。资源调度提供第一个可控实验对象；Principal、Capability、Guard、
+来源记录、外部验收和恢复边界说明这类策略凭什么获得行动权，以及行动以后什么才有资格成为
+事实。
+
 ## “AI 操作系统”的含义
 
-本项目中的 AI Operating System 不是“由模型接管内核”。它表示一个以受限 freestanding C
-为可信核心、以显式生命周期状态机组织资源、在慢路径接受受约束策略建议的实验系统：
+本项目中的 AI Execution OS 不是“由模型接管内核”。它表示一个以受限 freestanding C 为
+可信核心、以显式状态机组织特权转换、在慢路径接受受约束策略建议的实验系统：
 
 ```text
-Observe -> Represent -> Propose -> Guard -> Act -> Measure
+Principal -> Intent -> Propose -> Authorize -> Act -> Observe -> Accept
 ```
 
 系统工程中的许多控制器最终都在遍历有状态实体，根据观测和规则作出动作。`if`、`for`
 和 `while` 可以表达控制流，但系统是否可靠取决于状态、所有权、预算、退出条件和失败闭环
 是否明确。FlowKernel 研究的是能否让学习策略承担一部分原本由人工阈值和启发式规则完成的
-`Propose`，同时由 C 状态机和 Guard 保留动作边界、安全不变量和执行主权。
+`Propose`，同时由 C 状态机和 Guard 保留动作边界、安全不变量和执行主权。人类审批改变的
+是授权条件，不是事实资格；执行器报告成功后，仍需要独立事实源判断目标是否成立。
+
+详细定义见 [执行操作系统宪法](execution-os-constitution.md)。
 
 ## 研究边界
 
@@ -47,6 +58,22 @@ Observe -> Represent -> Propose -> Guard -> Act -> Measure
 - 限流、退避、暂停和恢复；
 - 检查点时机、任务放置和迁移建议；
 - 长期优先级和多目标策略更新。
+
+Slow Path 不是 RL 专属路径。静态规则、启发式、自适应阈值、RL、LLM 和 Agent 都是候选
+Policy source，并输出同一种有类型、带 Principal、Object、能力范围和有效期的 Proposal。
+若简单规则更好，系统应保留简单规则。
+
+### Authority 与事实边界
+
+- 人、Agent、服务及策略运行时作为 Principal；规则与模型是由 Principal 使用的版本化 policy
+  artifact，不因作者身份、模型能力或人工审批获得隐藏旁路；
+- Capability 在其权限模型内携带对特定 Object 的有界 authority，Guard 对每次特权转换完整
+  调停；
+- C 可信核心决定动作是否获准以及怎样有界执行，不替外部业务世界宣布真值；
+- 外部验收读取 runtime、artifact、database、browser 或 verifier 事实，但不直接改写 Guard
+  或被验对象；
+- 治理权和运行权分开：修改 Guard、硬不变量或 authority root 本身必须形成版本化、可恢复
+  的治理变化。
 
 ### 调度对象
 
@@ -72,8 +99,10 @@ FlowKernel 的成功不以“写出多少内核代码”衡量，而以是否能
 2. 定义可观测、可回放的 workload 生命周期；
 3. 证明新策略相对同预算传统基线改善了明确指标；
 4. 在内存错误、状态错误、奖励投机和模型异常时守住硬不变量；
-5. 给出策略收益、推理开销和复杂度成本的完整权衡；
-6. 让失败实验同样可以复现并形成结论。
+5. 证明错误影响被限制在授权隔离域内，且确定性 fallback 与恢复路径真实可用；
+6. 将特权转换绑定到 Principal、Capability、前后状态和恢复引用，并能交给独立验收读回；
+7. 给出策略收益、推理开销和复杂度成本的完整权衡；
+8. 让失败、边界和未完成实验同样可以复现并形成结论。
 
 ## 非目标
 
@@ -81,6 +110,8 @@ FlowKernel 的成功不以“写出多少内核代码”衡量，而以是否能
 - 把“使用 C”本身当作内存安全或正确性证明；
 - 在最小闭环前同时实现驱动生态、文件系统、网络栈、多核和分布式控制；
 - 用“AI”替代缺失的状态机和安全设计；
+- 把人工审批、日志或执行成功当成最终事实证明；
+- 在单维护者阶段宣称多主体治理、去中心化控制或社区连续性已经实现；
 - 只展示吞吐量而忽略饥饿、失败和恢复；
 - 把单机缩比实验描述为生产集群结论；
 - 为满足路线图而强行选择强化学习。
