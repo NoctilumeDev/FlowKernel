@@ -30,6 +30,10 @@
 - 静态规则、参数自适应、模仿学习和强化学习分别适合哪些阶段？
 - 学习策略是否真的优于经过调优的启发式基线？
 - 在线学习是否必要，还是离线训练加受控部署更安全？
+- SchedCP 式离线或控制面策略选择、配置与代码合成，同运行时持续提交有界 ActionProposal
+  分别适合哪些决策；两者的更新时机、验证成本和失败半径怎样公平比较？
+- 策略更新单元应是可部署代码、参数配置、版本化 Artifact，还是固定动作集合内的 Proposal；
+  什么证据能证明增加动态性带来的收益超过新的 authority 与回滚风险？
 - 策略回滚、版本兼容和漂移检测如何设计？
 
 ## RQ5：安全边界如何保持确定性
@@ -46,6 +50,10 @@
 
 - 两边如何表达语义一致的 workload、生命周期状态和有限动作？
 - Linux reference lab 的观测与 FlowKernel target 的内核事件存在哪些不可消除差异？
+- 如何把 SchedCP 的 workload 分析、策略库、Execution Verifier、签名部署 token、canary 与
+  circuit breaker 作为完整 agentic control-plane 基线，而不是只和裸 `sched_ext` 样例比较？
+- Kgent / SchedCP 的代码生成、配置选择和部署验证，与 FlowKernel 的运行时有界 Proposal
+  不能使用同一接口时，怎样避免把平台成熟度、Agent 成本或实现规模误当成机制收益？
 - 工具链、模拟器和真实硬件结果如何分别标注，避免跨环境外推？
 - C 内核新增机制的复杂度和故障面是否抵消策略收益？
 
@@ -73,6 +81,8 @@
 
 - Human、Agent、Service 和策略运行时如何进入同一 Principal 模型，而不抹掉各自的责任差异？
 - Capability 应怎样绑定 Object、动作、范围、资源预算、时限和版本？
+- SchedCP 式签名部署 token 能证明某个策略通过了哪些验证；它与可衰减、可委托、可撤销并
+  绑定运行时 Object 和预算的 Capability 之间还缺少哪些语义？
 - Capability 粒度过粗会扩大爆炸半径，过细会增加传播、校验与撤销成本；怎样找到可测边界？
 - 委托如何避免静默扩权，撤销如何对缓存、在途动作和恢复任务完整生效？
 - 如何阻止 Agent 借用高权限执行器形成 confused deputy？
@@ -83,6 +93,8 @@
 
 - `ALLOW`、执行器 `SUCCEEDED`、观测结果和 `VERIFIED` 分别由谁产生，怎样避免状态混轴？
 - 一个特权转换最少需要记录哪些 Principal、Capability、Proposal、前后状态和恢复引用？
+- 部署前 Execution Verifier、运行时 Guard 和动作后的独立 Acceptance 各自能证明什么；如何
+  防止“代码通过验证”“canary 未触发回退”被提升为世界事实已经成立？
 - 来源记录怎样发现缺失、截断、重排、身份冒用和存储损坏？
 - provenance、日志和签名各自能证明什么，又不能证明什么？
 - 来源记录与独立读回的 CPU、内存、I/O、时延和长期存储成本会不会抵消策略收益？
