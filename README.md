@@ -22,6 +22,11 @@ OS。它不试图让 AI 接管内核，也不假设人类拥有天然的最终�
 本仓库现在只保存研究问题、架构假设、实验路线和证据规则。它不是一个已经可运行的内核，
 也不把路线图描述成已实现能力。
 
+AI 调度、runtime assurance、shielding、Capability 与 agentic scheduler control plane 都有直接
+前人工作。FlowKernel 不把这些零件单独宣称为新发明；它只把“多种策略源的运行时有界提案、
+C-first 确定性执行边界、统一授权语义和独立事实验收”作为待反证的组合差异。精确覆盖关系和
+必须复现的直接基线见[前人工作与阅读地图](docs/prior-art.md)。
+
 ## 实现契约
 
 > C owns mechanism and enforcement; policy sources may only propose bounded actions.
@@ -53,8 +58,9 @@ OS。它不试图让 AI 接管内核，也不假设人类拥有天然的最终�
 
 - **FlowKernel target：** 用受限 freestanding C 建立最小可启动内核、显式生命周期状态机、
   有界能力与资源边界、确定性基线、C Guard、动作执行器和恢复钩子；
-- **Linux reference lab：** 使用 Linux、cgroup、`sched_ext` 和 eBPF 作为传统对照组、观测
-  实验台与早期假设验证工具，不把实验台结果冒充 FlowKernel 内核能力。
+- **Linux reference lab：** 使用 Linux、cgroup、`sched_ext` 和 eBPF 建立传统对照组与现有
+  agentic control-plane 直接基线，并作为观测实验台和早期假设验证工具；不把实验台结果冒充
+  FlowKernel 内核能力。
 
 在这两个边界上逐步研究：
 
@@ -98,7 +104,7 @@ flowchart TD
 
 | 阶段 | 研究目标 | 当前状态 |
 | --- | --- | --- |
-| R0 | 固定宪法、可信边界、C 工具链、传统基线与干净机器恢复协议 | Planned |
+| R0 | 固定宪法、可信边界、C 工具链、传统与 agentic 基线、干净机器恢复协议 | Planned |
 | R1 | 最小可启动 C 内核、静态 Principal/Object 句柄与生命周期状态机 | Planned |
 | R2 | 确定性能力、资源和隔离 Guard，有限执行器与故障回退 | Planned |
 | R3 | 特权转换来源记录、恢复与外部验收交接 | Planned |

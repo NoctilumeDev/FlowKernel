@@ -6,11 +6,15 @@
 ## R0：宪法、可信边界、工具链与传统基线
 
 目标：固定执行操作系统宪法、声明的可信边界、受限 C 子集、编译/链接/模拟器工具链，并建立
-可重复 workload、指标和 Linux 传统策略对照组。此阶段不写空内核制造进度。
+可重复 workload、指标、Linux 传统策略对照组和现有 agentic scheduler control-plane 基线。
+此阶段不写空内核制造进度。
 
 最低证据：
 
 - 固定硬件、宿主内核、编译器、链接器、模拟器、运行时和 workload 版本；
+- 建立带检索方法、时间范围、纳入标准、版本与证据等级的文献矩阵；至少直接比较 Simplex /
+  runtime assurance、Shielded RL、Kgent、SchedCP、Progent、传统调度和学习型调度，不以博客
+  摘要代替原论文与 artifact；
 - 明确 C/汇编边界、warning 策略、内存所有权规则和启动镜像格式；
 - 保存配置、随机种子和原始结果；
 - 覆盖 CPU-bound、I/O-bound、memory pressure、重试和长任务；
@@ -19,6 +23,9 @@
   AcceptanceVerdict 和 EpistemicStatus 的语义边界，但不预先冻结模块或 ABI；
 - 记录宿主、编译器、托管平台和单维护者作为当前外部 failure domain；
 - 从干净机器只依靠仓库、文档化工具链和网络重建 R0；失败时记录隐藏环境依赖，不降低门槛。
+- 在兼容 Linux、`sched_ext`、硬件和预算边界内，对 SchedCP artifact 完成可复现性审计或有界
+  复跑，记录 workload 分析、策略选择/合成、Execution Verifier、部署 token、canary、fallback、
+  Agent 成本和失败结果；条件不满足时标记 `BOUNDARY / PENDING`，不把论文结果冒充本机证据。
 
 ## R1：最小 C 内核、静态身份句柄与生命周期状态机
 
@@ -32,8 +39,10 @@
 ## R2：确定性 authority、资源、隔离与 Guard
 
 目标：实现确定性调度、资源回收、有限动作执行器与 C Guard，并使用 Linux reference lab
-中的 cgroup、容器控制器、`sched_ext` 或 eBPF 建立同语义对照。逐步验证静态 Capability 的
-范围、过期、撤销、时限和版本，而不是先实现通用账号系统或动态委托网络。
+中的 cgroup、容器控制器、`sched_ext` 或 eBPF 建立同语义对照。除裸机制和传统调度器外，
+SchedCP 式 workload 分析、策略库、验证后部署和受监控回退必须作为 agentic control-plane
+直接基线。逐步验证静态 Capability 的范围、过期、撤销、时限和版本，而不是先实现通用账号
+系统或动态委托网络。
 
 退出条件：每个动作都有 Principal、目标 Object、权限边界、资源预算、最大幅度、可逆性分类
 和开销数据；撤销后的旧能力、旧快照与重放提案不能继续有效；Guard 或 authority state 崩溃、
@@ -56,11 +65,15 @@ Attention 不获得执行权。
 
 ## R5：受约束策略学习
 
-目标：在内核外或隔离边界内，依次比较自适应阈值、模仿学习和受 C Guard 约束的强化学习。
+目标：在内核外或隔离边界内，依次比较自适应阈值、模仿学习和受 C Guard 约束的强化学习；
+并在相同 workload、观测、预算和回滚条件下，将运行时有界 Proposal 与 SchedCP 式控制面
+策略选择、配置或代码合成分开比较。
 
 退出条件：在相同 workload 和预算下超过已调优规则基线，并通过非法动作、策略超时、
 奖励投机、饥饿和控制振荡测试。学习策略只能产生与规则基线同类型的 Proposal；不能因模型
-效果更好而扩大 Capability 或修改硬不变量。
+效果更好而扩大 Capability 或修改硬不变量。若控制面代码合成获胜，必须分别归因于 workload
+语义、策略空间、部署前验证或运行时机制，不能把“Agent 生成了代码”本身写成 FlowKernel 的
+贡献。
 
 ## R6：连续性、检查点、迁移与委托
 
