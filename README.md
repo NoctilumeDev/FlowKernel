@@ -144,6 +144,11 @@ flowchart TD
 - [实验路线](docs/experiment-roadmap.md)
 - [证据规则](docs/evidence-policy.md)
 - [前人工作与阅读地图](docs/prior-art.md)
+- [文献审查协议](docs/literature-review-protocol.md)
+- [主要参考文献](docs/references.md)
+- [前人工作比较矩阵](docs/prior-art-matrix.md)
+- [研究证据追踪](docs/research-evidence-traceability.md)
+- [R0 文献门禁记录](docs/r0-literature-gate.md)
 - [威胁模型与安全不变量](docs/threat-model.md)
 
 ## 项目谱系
