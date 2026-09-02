@@ -38,6 +38,10 @@
 可重复 workload、指标、Linux 传统策略对照组和现有 agentic scheduler control-plane 基线。
 此阶段不写空内核制造进度。
 
+R0 的子门、最小纵向闭环和 R1 硬阻断见
+[R0 闭环与 R1 准入门](r0-closure-gate.md)。当前只允许继续工具链、机器合同、Linux reference
+lab 和干净恢复工作；关闭 R0 只获得 R1 准入资格，不自动开始 R1。
+
 最低证据：
 
 - 固定硬件、宿主内核、编译器、链接器、模拟器、运行时和 workload 版本；
@@ -57,6 +61,10 @@
 - 在兼容 Linux、`sched_ext`、硬件和预算边界内，对 SchedCP artifact 完成可复现性审计或有界
   复跑，记录 workload 分析、策略选择/合成、Execution Verifier、部署 token、canary、fallback、
   Agent 成本和失败结果；条件不满足时标记 `BOUNDARY / PENDING`，不把论文结果冒充本机证据。
+
+R0 工具、合同和实验台的冻结文本分别见
+[工具链冻结合同](r0-toolchain-freeze.md)、[最小交接合同](r0-contract-freeze.md)和
+[Linux Reference Lab 冻结合同](r0-reference-lab-freeze.md)。
 
 ## R1：最小 C 内核、静态身份句柄与生命周期状态机
 

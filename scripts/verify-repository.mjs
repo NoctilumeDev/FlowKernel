@@ -23,6 +23,11 @@ const requiredFiles = [
   "docs/prior-art-matrix.md",
   "docs/research-evidence-traceability.md",
   "docs/r0-literature-gate.md",
+  "docs/r0-toolchain-freeze.md",
+  "docs/r0-contract-freeze.md",
+  "docs/r0-reference-lab-freeze.md",
+  "docs/r0-closure-gate.md",
+  "docs/evidence/r0-host-inventory-2026-09-03.md",
   "docs/threat-model.md",
 ];
 
@@ -94,6 +99,10 @@ for (const link of [
   "docs/prior-art-matrix.md",
   "docs/research-evidence-traceability.md",
   "docs/r0-literature-gate.md",
+  "docs/r0-toolchain-freeze.md",
+  "docs/r0-contract-freeze.md",
+  "docs/r0-reference-lab-freeze.md",
+  "docs/r0-closure-gate.md",
   "docs/threat-model.md",
 ]) {
   if (!readme.includes(link)) fail(`README.md: navigation is missing ${link}`);
@@ -123,6 +132,58 @@ for (const field of [
   "公开限制",
 ]) {
   if (!literatureMatrix.includes(field)) fail(`Prior-art matrix is missing field: ${field}`);
+}
+
+const r0Closure = fs.readFileSync(path.join(root, "docs/r0-closure-gate.md"), "utf8");
+for (const statement of [
+  "R0 PLANNED · CLOSURE WORK ONLY · R1 ENTRY PROHIBITED",
+  "R0-T 工具链候选验证与精确锁",
+  "R0-C 机器合同与正反 fixtures",
+  "R0-LAB reference lab runner",
+  "→ STOP",
+]) {
+  if (!r0Closure.includes(statement)) fail(`R0 closure gate is missing: ${statement}`);
+}
+
+const r0Toolchain = fs.readFileSync(path.join(root, "docs/r0-toolchain-freeze.md"), "utf8");
+for (const statement of [
+  "EXECUTABLE LOCK PENDING",
+  "target toolchain、Linux reference lab 和干净机器",
+  "R0 已关闭",
+]) {
+  if (!r0Toolchain.includes(statement)) fail(`R0 toolchain boundary is missing: ${statement}`);
+}
+
+const r0Contract = fs.readFileSync(path.join(root, "docs/r0-contract-freeze.md"), "utf8");
+for (const statement of [
+  "ALLOW | CLAMP | DENY",
+  "SUCCEEDED | FAILED | PARTIAL | UNKNOWN",
+  "PASS | FAIL | INCONCLUSIVE | BOUNDARY | PENDING",
+  "不能把自己的 `SUCCEEDED` 提升成 `VERIFIED`",
+]) {
+  if (!r0Contract.includes(statement)) fail(`R0 contract boundary is missing: ${statement}`);
+}
+
+const r0Lab = fs.readFileSync(path.join(root, "docs/r0-reference-lab-freeze.md"), "utf8");
+for (const statement of [
+  "不是 FlowKernel target",
+  "独立读回",
+  "FIRST EVIDENCE RUN PENDING",
+  "后续环境变化只追加新证据记录",
+]) {
+  if (!r0Lab.includes(statement)) fail(`R0 reference lab boundary is missing: ${statement}`);
+}
+
+const r0HostInventory = fs.readFileSync(
+  path.join(root, "docs/evidence/r0-host-inventory-2026-09-03.md"),
+  "utf8",
+);
+for (const statement of [
+  "OBSERVED · R0 ENVIRONMENT BOUNDARY",
+  "没有可用的通用 Linux lab",
+  "本次观察不能关闭 R0",
+]) {
+  if (!r0HostInventory.includes(statement)) fail(`R0 host inventory is missing: ${statement}`);
 }
 
 const researchTraceability = fs.readFileSync(
