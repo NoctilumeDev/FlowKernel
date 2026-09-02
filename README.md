@@ -127,6 +127,10 @@ flowchart TD
 阶段编号表示依赖关系，不代表承诺日期。每一阶段只有形成可重复实验和对照证据后，才会
 从 `Planned` 更新为 `Validated`。
 
+R0 当前仍未关闭。下一步且仅允许继续 R0 的工具链锁、机器合同、Linux reference lab 与干净
+恢复证据；[R0 闭环与 R1 准入门](docs/r0-closure-gate.md)全部通过以前，禁止创建 R1 内核或
+后续阶段的占位实现。即使 R0 关闭，也只获得 R1 准入资格，不自动开始 R1。
+
 路线按架构层分成三个后续阶段带：R1–R3 建立确定性执行、权限与证据底座，R4–R5 只在其上研究
 不可信观测和策略，R6–R7 再扩展连续性与规模。R0 的职责不是提前堆模块，而是冻结这些依赖
 方向、交接合同、状态所有权和阶段门禁。分层表示高内聚模块与单向依赖，不表示每层都拆成
@@ -149,6 +153,10 @@ flowchart TD
 - [前人工作比较矩阵](docs/prior-art-matrix.md)
 - [研究证据追踪](docs/research-evidence-traceability.md)
 - [R0 文献门禁记录](docs/r0-literature-gate.md)
+- [R0 工具链冻结合同](docs/r0-toolchain-freeze.md)
+- [R0 最小交接合同](docs/r0-contract-freeze.md)
+- [R0 Linux Reference Lab 冻结合同](docs/r0-reference-lab-freeze.md)
+- [R0 闭环与 R1 准入门](docs/r0-closure-gate.md)
 - [威胁模型与安全不变量](docs/threat-model.md)
 
 ## 项目谱系
