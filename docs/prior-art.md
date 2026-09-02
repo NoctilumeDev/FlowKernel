@@ -21,6 +21,14 @@
   动作的 fallback。它是 FlowKernel 讨论 Agent Principal、有限动作和 complete mediation 时
   必须比较的应用层基线；其工具调用策略不等于内核 Capability，也不覆盖资源所有权、恢复后
   权限保持或外部事实验收。
+- [Microsoft Agent Framework：Agent Harness](https://learn.microsoft.com/en-us/agent-framework/get-started/harness)：
+  把规划/执行模式、待办、上下文压缩、文件记忆与访问、工具审批和跨轮会话状态作为 Harness
+  脚手架。它是 FlowKernel 划定应用层编排责任的直接工程基线：这些能力属于不可信策略域，
+  不是 C-first 权限边界或资源调度机制，也不能因存在工具审批就推导出系统级最小权限。
+- [OpenAI：A practical guide to building agents](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/)：
+  将模型、工具与指令/guardrails 作为 Agent 的基础组成，并讨论工具行动与编排。FlowKernel
+  不把工具调用或 Agent loop 当作研究创新；它需要额外验证的是 Harness 失守后，Capability、
+  硬资源上限、机制隔离和恢复边界是否仍由独立、确定性的层次保持。
 - [NIST Separation of Duty](https://csrc.nist.gov/glossary/term/separation_of_duty)：说明职责与访问
   授权可以被拆分，从而减少单一主体独立滥用系统的风险。FlowKernel 只把它作为未来高风险
   governance transition 的候选原则，不在单维护者阶段伪造多人治理。
