@@ -18,6 +18,11 @@ const requiredFiles = [
   "docs/experiment-roadmap.md",
   "docs/evidence-policy.md",
   "docs/prior-art.md",
+  "docs/literature-review-protocol.md",
+  "docs/references.md",
+  "docs/prior-art-matrix.md",
+  "docs/research-evidence-traceability.md",
+  "docs/r0-literature-gate.md",
   "docs/threat-model.md",
 ];
 
@@ -84,9 +89,55 @@ for (const link of [
   "docs/execution-os-constitution.md",
   "docs/c-first-kernel-contract.md",
   "docs/prior-art.md",
+  "docs/literature-review-protocol.md",
+  "docs/references.md",
+  "docs/prior-art-matrix.md",
+  "docs/research-evidence-traceability.md",
+  "docs/r0-literature-gate.md",
   "docs/threat-model.md",
 ]) {
   if (!readme.includes(link)) fail(`README.md: navigation is missing ${link}`);
+}
+
+const literatureGate = fs.readFileSync(path.join(root, "docs/r0-literature-gate.md"), "utf8");
+for (const statement of [
+  "LITERATURE BASELINE CLOSED · R0 REMAINS PLANNED",
+  "35 个主要来源",
+  "Agent Harness、Linux reference lab 与 FlowKernel target",
+]) {
+  if (!literatureGate.includes(statement)) fail(`R0 literature gate is missing: ${statement}`);
+}
+
+const literatureMatrix = fs.readFileSync(path.join(root, "docs/prior-art-matrix.md"), "utf8");
+for (const field of [
+  "问题",
+  "状态",
+  "动作",
+  "目标",
+  "策略更新时机",
+  "最终 authority",
+  "验证者",
+  "fallback",
+  "环境",
+  "证据强度",
+  "公开限制",
+]) {
+  if (!literatureMatrix.includes(field)) fail(`Prior-art matrix is missing field: ${field}`);
+}
+
+const researchTraceability = fs.readFileSync(
+  path.join(root, "docs/research-evidence-traceability.md"),
+  "utf8",
+);
+for (let index = 1; index <= 11; index += 1) {
+  if (!researchTraceability.includes(`RQ${index}`)) {
+    fail(`Research evidence traceability is missing RQ${index}`);
+  }
+}
+
+const references = fs.readFileSync(path.join(root, "docs/references.md"), "utf8");
+for (const statement of ["HAR-05", "HAR-08", "AGOS-01", "LIN-01", "PREPRINT"]) {
+  if (!references.includes(statement)) fail(`Primary references are missing: ${statement}`);
 }
 
 const conduct = fs.readFileSync(path.join(root, "CODE_OF_CONDUCT.md"), "utf8");

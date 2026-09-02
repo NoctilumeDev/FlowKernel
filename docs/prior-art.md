@@ -1,8 +1,9 @@
 # 前人工作与阅读地图
 
-本文档是 R0 之前的初始阅读地图，不是系统性文献综述。条目只说明 FlowKernel 应从哪里
-建立基线，不能据此宣称研究问题新颖或方案有效。正式开题前必须补充检索方法、时间范围、
-纳入标准和引用版本。
+本文档是 R0 的叙事阅读地图，不是系统性文献综述。条目只说明 FlowKernel 应从哪里建立
+基线，不能据此宣称研究问题新颖或方案有效。检索方法、时间范围、纳入标准和引用版本已记录在
+[文献审查协议](literature-review-protocol.md)，逐项字段见[前人工作比较矩阵](prior-art-matrix.md)，
+稳定编号见[主要参考文献](references.md)，问题级用途见[研究证据追踪](research-evidence-traceability.md)。
 
 ## 保护、能力与可信边界
 
@@ -16,12 +17,12 @@
 - [seL4 Capability Distribution Language](https://docs.sel4.systems/projects/capdl/index.html)：
   capability distribution 会限制系统未来可达状态，可作为静态权限图和最小系统描述的研究
   参照。
-- [Progent：Programmable Privilege Control for LLM Agents](https://arxiv.org/abs/2504.11703)：
+- [Progent: Securing AI Agents with Privilege Control](https://arxiv.org/abs/2504.11703)：
   以可编程策略在 Agent 执行期对工具调用实施细粒度、确定性的最小权限控制，并定义被拒绝
   动作的 fallback。它是 FlowKernel 讨论 Agent Principal、有限动作和 complete mediation 时
   必须比较的应用层基线；其工具调用策略不等于内核 Capability，也不覆盖资源所有权、恢复后
   权限保持或外部事实验收。
-- [Microsoft Agent Framework：Agent Harness](https://learn.microsoft.com/en-us/agent-framework/get-started/harness)：
+- [Microsoft Agent Framework：Agent Harness](https://learn.microsoft.com/en-us/agent-framework/concepts/harness)：
   把规划/执行模式、待办、上下文压缩、文件记忆与访问、工具审批和跨轮会话状态作为 Harness
   脚手架。它是 FlowKernel 划定应用层编排责任的直接工程基线：这些能力属于不可信策略域，
   不是 C-first 权限边界或资源调度机制，也不能因存在工具审批就推导出系统级最小权限。
@@ -32,6 +33,25 @@
 - [NIST Separation of Duty](https://csrc.nist.gov/glossary/term/separation_of_duty)：说明职责与访问
   授权可以被拆分，从而减少单一主体独立滥用系统的风险。FlowKernel 只把它作为未来高风险
   governance transition 的候选原则，不在单维护者阶段伪造多人治理。
+
+## Agent OS 与 Agent runtime
+
+- [AIOS: LLM Agent Operating System](https://openreview.net/forum?id=L4HHkCDz2x) 及其
+  [artifact](https://github.com/agiresearch/AIOS)：把 Agent 调度、上下文、记忆、存储、工具和
+  访问管理组织为宿主操作系统之上的 Agent runtime。它是 Agent 级资源抽象的正式发表基线，
+  但其“kernel”不等于 FlowKernel 计划中的 freestanding C target，也不替代硬件机制证据。
+- [AgentRM](https://arxiv.org/abs/2603.13110)：以 MLFQ、zombie reaping、限流感知 admission 和
+  分层上下文生命周期处理 Agent runtime 的阻塞、僵尸和上下文退化。它直接约束 FlowKernel
+  关于“Agent 资源调度”的措辞；当前按预印本使用，不能把报告结果升级为稳定结论。
+- [Agent libOS](https://arxiv.org/abs/2606.03895) 及其
+  [artifact](https://github.com/yingqi-z20/Agent-libOS)：将长期 Agent 表示为可调度、可中断、
+  capability-controlled 的运行时进程，并公开声明其位于常规宿主 OS 之上，不实现硬件驱动、
+  内核态隔离或 POSIX 操作系统。它是 Harness 与 OS 机制之间应用层 runtime 的最直接对照，
+  也是 FlowKernel 必须保留三层边界、不能笼统宣称 Capability/恢复创新的反证控制。
+
+这些系统说明“Agent 也需要调度、资源、上下文、恢复与权限”已经不是空白。FlowKernel 若继续，
+必须证明的是独立 deterministic authority 与 C-first 资源机制边界，而不是重复一个更底层外观的
+Agent runtime。
 
 ## Runtime assurance 与不可信策略
 
@@ -138,10 +158,10 @@ SchedCP 已实质覆盖 AI workload 分析、策略选择/合成、控制面与�
 control-plane 直接基线，逐项比较策略更新时机、动作粒度、authority、验证者、fallback、
 运行时开销和公开失败边界。
 
-R0 开始前，需要建立文献矩阵，逐项记录问题、状态、动作、目标、策略更新时机、authority、
-验证者、fallback、实验环境、证据强度和公开局限。若已有工作覆盖上述差异，应修改研究问题，
-而不是维护预设的新颖性。论文、可运行 artifact、工程博客和未验证实现必须分级记录，不能
-因为名称相似或实现可用就赋予相同证据权重。
+R0 文献门禁已经建立比较矩阵，逐项记录问题、状态、动作、目标、策略更新时机、authority、
+验证者、fallback、实验环境、证据强度和公开局限。若后续工作覆盖上述差异，应修改研究问题，
+而不是维护预设的新颖性。论文、预印本、可运行 artifact 和官方工程文档分级记录，不能因为
+名称相似或实现可用就赋予相同证据权重。
 
 ## Linux reference lab 的许可证边界
 
