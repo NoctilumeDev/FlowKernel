@@ -88,7 +88,7 @@ AcceptanceVerdict 也不自动映射为认识状态：`PASS` 只能支持本次�
 `INCONCLUSIVE`、`BOUNDARY` 和 `PENDING` 都不能被升级为成功。资源不足、观测冲突或验收链
 不完整时，系统必须保留 `UNKNOWN`、`PARTIAL` 或未验证状态。
 
-## 4. 八条宪法边界
+## 4. 九条宪法边界
 
 1. **概率智能默认不拥有执行主权或事实权。** 规则、启发式、RL、LLM、Agent 与人工判断都
    可以产生候选策略，但都不能仅凭自信把判断写成系统事实。
@@ -106,6 +106,10 @@ AcceptanceVerdict 也不自动映射为认识状态：`PASS` 只能支持本次�
    变化与 break-glass 必须显式、限域、限时、留痕，并具有撤销或恢复路径。
 8. **UNKNOWN 必须得到保护，系统自身也必须可恢复。** 模型缺席、节点失败、维护者换机、
    凭据轮换或原托管平台失效，都不能自动抹掉系统事实与工程记忆。
+9. **智能编排、权限调停与资源机制不得合并为单一信任域。** Agent Harness 可以管理 Prompt、
+   上下文、记忆、规划、技能和工具选择，但只能提交有类型的 Proposal，不能自行签发
+   Capability、授权自身或直接操作资源机制。权限边界只把通过校验的 Proposal 转换为有界命令；
+   调度器与底层机制只认识 workload、预算、优先级、期限和硬上限，不解释模型或业务语义。
 
 这里的“没有绝对控制权”不是声称物理机所有者、固件、编译器或托管平台已经被 FlowKernel
 消除。它表示在系统所声明的信任边界内，不给任何日常主体提供未经完整调停的 God Mode；
@@ -116,10 +120,12 @@ AcceptanceVerdict 也不自动映射为认识状态：`PASS` 只能支持本次�
 ```mermaid
 flowchart TD
     principal["Human / Agent / Service\nPrincipal"] --> intent["Intent / Request"]
-    intent --> policy["Policy plane\nRule / Heuristic / RL / LLM"]
+    intent --> policy["Untrusted policy / Agent Harness\nPrompt / Plan / Rule / RL / LLM"]
     policy --> proposal["Versioned ActionProposal\nUntrusted"]
-    proposal --> core["C-first trusted core\nIdentity handles / Capability checks\nLifecycle / Resource / Isolation\nGuard / Bounded executor / Recovery"]
-    core --> runtime["Runtime / Hardware"]
+    proposal --> authority["Deterministic authority boundary\nPrincipal / Capability / Object\nLifecycle / Guard / Provenance"]
+    authority --> command["Authorized bounded command"]
+    command --> mechanism["OS resource mechanism\nScheduler / Memory / I-O / Network\nProcess / Device / Isolation"]
+    mechanism --> runtime["Workload / Runtime / Hardware"]
     runtime --> observation["Result / Observation"]
     observation --> acceptance["External acceptance\nRuntime / Artifact / DB / Browser / Verifier"]
     acceptance --> runVerdict["AcceptanceVerdict\nPASS / FAIL / INCONCLUSIVE / BOUNDARY / PENDING"]
@@ -129,10 +135,11 @@ flowchart TD
     epistemic --> policy
 ```
 
-这个结构故意保留两条边界：
+这个结构故意保留三条不能折叠的边界：
 
-- C-first 可信核心负责“动作能否发生、怎样有界发生、失败怎样回退”，不负责替业务世界宣布
-  最终真值；
+- Agent Harness 与其他策略源负责表达意图和候选动作，但不拥有授权、资源或机制入口；
+- 确定性权限边界负责“动作能否发生、允许到什么范围”，底层资源机制负责“实际最多能够发生
+  到什么程度”；两层只通过有界命令连接，不共享 Prompt、策略状态、凭据或隐式控制流；
 - 外部验收负责“行动后的现实究竟是什么”，但不直接修改被验对象、Guard 或历史记录。
 
 VeriTrail、GitHub 门禁、数据库、浏览器和发布物读回可以为 Acceptance 提供方法或事实源，
@@ -165,6 +172,10 @@ FlowKernel 不以消除幻觉、误判或 reward hacking 为可交付目标。�
 ```text
 Error impact is a subset of the authorized isolation domain.
 ```
+
+因此，`Jailbreak != Privilege escalation` 是一项必须验证的系统不变量，而不是对模型对齐能力
+的乐观假设。Harness 策略失守最多只能产生违规 Proposal；若它能够据此签发权限、修改 Guard、
+扩大资源包络或绕过资源机制，就说明分层已经失败。
 
 任何策略源都不能因为一次错误判断而自然获得以下能力：
 

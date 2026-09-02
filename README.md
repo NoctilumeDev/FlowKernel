@@ -27,6 +27,15 @@ AI 调度、runtime assurance、shielding、Capability 与 agentic scheduler con
 C-first 确定性执行边界、统一授权语义和独立事实验收”作为待反证的组合差异。精确覆盖关系和
 必须复现的直接基线见[前人工作与阅读地图](docs/prior-art.md)。
 
+FlowKernel 不是通用 Agent Harness。Prompt、上下文、记忆、规划、技能与工具选择属于不可信的
+智能编排域；Harness 只能提交有类型的 `ActionProposal`，不能给自己签发 Capability，也不能
+直接控制调度器。确定性权限边界负责约束行动，资源机制负责落实硬上限：
+
+> Intelligence proposes. Authority constrains. Mechanism enforces.
+
+“Harness 越狱不应自动成为权限提升”是需要由隔离、旁路测试和故障证据验证的设计不变量，
+不是当前仓库已经实现的安全保证。
+
 ## 实现契约
 
 > C owns mechanism and enforcement; policy sources may only propose bounded actions.
@@ -44,6 +53,8 @@ C-first 确定性执行边界、统一授权语义和独立事实验收”作为
   迁移前有效检查点等约束不能交给奖励函数自行领悟。
 - **Mechanism and policy stay separated.** 学习系统可以调整策略，但不重写上下文切换、
   中断、页分配和锁等底层机制。
+- **Harness, authority and resource mechanism stay separated.** 智能编排、确定性授权与资源
+  落实只共享版本化合同，不共享凭据、执行入口、可变状态或故障域。
 - **Execution is not truth.** `ALLOW` 只表示动作获准，`SUCCEEDED` 只表示执行器报告完成；
   关于现实的声明仍需独立读回和证据裁决。
 - **Every privileged transition has provenance and recovery.** 记录 Principal、授权、目标、前后
@@ -137,11 +148,13 @@ flowchart TD
 | [PlainJournal](https://github.com/NoctilumeDev/PlainJournal) | 分布式业务系统的可靠性、恢复与资源边界 |
 | [PlainJournalPro](https://github.com/NoctilumeDev/PlainJournalPro) | 多商户平台、账本结算与异构服务治理 |
 | [VeriTrail](https://github.com/NoctilumeDev/VeriTrail) | 受控执行、事实读回、失败保留与外部验收 |
+| [JPyxis](https://github.com/NoctilumeDev/JPyxis) | 异构计算中控制、定义、运行时与合同的解耦 |
 | FlowKernel | 概率策略如何在确定性行动、权限、来源和恢复边界内运行 |
 
 前三个应用项目提供所有权、资源、故障与恢复样本；VeriTrail 提供独立验收和事实资格方法；
-FlowKernel 研究这些约束如何进入执行底座。集成的是失败后留下的边界思想，不是把现有项目
-代码拼进内核。它们都是问题来源与控制组，不是 FlowKernel 已完成研究的证据。
+JPyxis 研究异构计算能力怎样通过合同挂载而不共享控制权；FlowKernel 研究这些约束如何进入
+执行底座。集成的是失败后留下的边界思想，不是把现有项目代码拼进内核。它们都是问题来源与
+控制组，不是 FlowKernel 已完成研究的证据。
 
 ## 当前不做
 

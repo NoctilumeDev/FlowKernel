@@ -63,6 +63,35 @@ Slow Path 不是 RL 专属路径。静态规则、启发式、自适应阈值、
 Policy source，并输出同一种有类型、带 Principal、Object、能力范围和有效期的 Proposal。
 若简单规则更好，系统应保留简单规则。
 
+### Agent Harness 与资源机制
+
+通用 Agent Harness 通常负责长任务所需的规划与执行循环、待办、上下文压缩、文件记忆、
+工具审批和会话持久化。FlowKernel 不重复实现这些应用层能力，也不把 Harness 纳入可信调度
+核心。若未来接入 Harness，它只是一种不可信 Policy source：
+
+```text
+Agent Harness
+Prompt / Context / Memory / Planning / Tool selection
+        |
+        | typed ActionProposal; no self-issued authority
+        v
+Deterministic Authority Boundary
+Principal / Capability / Object / Lifecycle / Guard / Budget
+        |
+        | authorized, clamped and bounded command
+        v
+OS Resource Mechanism
+Scheduler / Memory / I/O / Network / Process / Device / Isolation
+```
+
+三层只共享版本化合同与不可变标识，不共享可变状态、凭据、特权执行入口、恢复所有权或故障域。
+Harness 不理解中断、页分配和调度器内部结构；资源机制不解释 Prompt、模型置信度或“任务很重要”
+之类的 AI 语义。适用平台上的候选实现应优先使用不同进程、地址空间、身份和资源包络建立真实
+隔离，但具体 IPC、Capability 表示和部署拓扑仍需由 R0/R1 实验决定。
+
+目标不是证明模型不会被越狱，而是验证：即使 Harness 产生恶意或错误 Proposal，它仍不能自行
+扩权、修改 Guard、触碰边界外对象或突破底层硬资源上限。
+
 ### Authority 与事实边界
 
 - 人、Agent、服务及策略运行时作为 Principal；规则与模型是由 Principal 使用的版本化 policy
