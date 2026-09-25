@@ -4,16 +4,21 @@
 [![Status](https://img.shields.io/badge/evidence-planned-6f624b)](#实现契约)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4f7668)](./LICENSE)
 
-> A planned C-first experimental AI execution kernel researching how fallible
-> policy can act inside deterministic authority, resource, isolation,
-> provenance, and recovery boundaries.
+> A planned OS-level trust and execution substrate for fallible agentic
+> intelligence, with a C-first experimental target and a controlled Linux
+> reference lab kept as separate research lines.
 
 **Evidence state: Planned. Implementation has not started.**
 
-FlowKernel（流核）的长期目标是构建一个以 freestanding C 为可信核心的实验性 AI Execution
-OS。它不试图让 AI 接管内核，也不假设人类拥有天然的最终正确性；它研究如何让规则、强化
-学习、Agent 与大模型等不完全可靠的策略源，在确定性的身份、权限、资源、隔离、生命周期、
-来源记录和恢复边界内提出并执行有界动作。
+FlowKernel（流核）研究的是一层面向不可信智能体执行的**操作系统级信任与执行基座**。它不
+替代 Linux、Windows 或 macOS，也不试图让 AI 接管内核；它研究如何让规则、强化学习、Agent
+与大模型等不完全可靠的策略源，在确定性的身份、权限、资源、隔离、生命周期、来源记录和
+恢复边界内提出并执行有界动作。
+
+当前选择的候选研究载体是以 freestanding C 为可信核心的实验内核目标，以及用于对照和早期
+反证的 Linux reference lab。未来若把同一组 authority / execution / evidence 语义映射到现有宿主，
+Linux、Windows 与 macOS 会需要各自的 enforcement adapter；这些适配器目前尚未设计或实现。
+“可映射”不表示仓库已经具备跨平台运行能力。
 
 资源调度仍是第一个核心研究方向：操作系统能否不仅观察任务消耗了多少资源，还能理解任务
 所处的生命周期、真实进展和连续运行价值，并据此改进长期策略。项目扩展的是这个问题的上游
@@ -35,6 +40,37 @@ FlowKernel 不是通用 Agent Harness。Prompt、上下文、记忆、规划、�
 
 “Harness 越狱不应自动成为权限提升”是需要由隔离、旁路测试和故障证据验证的设计不变量，
 不是当前仓库已经实现的安全保证。
+
+## 系统位置
+
+FlowKernel 的“操作系统级”描述的是问题等级，而不是产品类别宣称。它处理 authority、隔离、
+资源所有权、生命周期、撤销、恢复和可观察性，却不重新实现一个通用操作系统的全部驱动、
+文件系统、网络栈和应用生态：
+
+```text
+Human / Application contract
+        ↓
+Agent / model / rule proposes an action
+        ↓
+FlowKernel trust semantics
+authority · scope · budget · lease · revocation · recovery · provenance
+        ↓
+platform-specific enforcement
+existing OS primitives OR the C-first experimental target
+        ↓
+runtime / device / external world
+        ↓
+independent observation and acceptance
+```
+
+自然语言意图不会直接成为内核 primitive。上层必须把它收紧成带 Principal、Object、动作集合、
+前置状态、资源预算、有效期和恢复引用的机器可检查 Proposal；策略可以在硬边界内优化 KPI，
+不能用奖励覆盖权限与安全不变量。执行后的事实也不要求全部由内核产生，但必须来自不受该
+Agent 结论权控制的 observation plane。
+
+因此，`AI Execution OS` 在本仓库里是研究简称；更精确的公开定位是：
+
+> **An OS-level trust and execution substrate for untrusted agentic intelligence.**
 
 ## 实现契约
 
