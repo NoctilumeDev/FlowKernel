@@ -17,9 +17,11 @@ FlowKernel 最初追问：操作系统能否理解 workload 所处的生命周�
 
 > How can fallible intelligence act without becoming sovereign?
 
-FlowKernel 因而扩展为一个规划中的 C-first AI Execution OS 研究项目：它研究如何让不完全
+FlowKernel 因而扩展为一个规划中的操作系统级信任与执行基座研究项目：它研究如何让不完全
 可靠的策略源在确定性的身份、权限、资源、隔离、生命周期、来源记录和恢复边界内提出并执行
-有界动作，使智能可以犯错，但错误不能自然升级为系统级失控或未经验证的工程事实。
+有界动作，使智能可以犯错，但错误不能自然升级为系统级失控或未经验证的工程事实。`AI
+Execution OS` 是这项研究的简称；当前实验载体是 C-first target 与 Linux reference lab，
+不是替代 Linux、Windows 或 macOS 的通用操作系统，也不表示跨平台 adapter 已经实现。
 
 这不是重写项目起源。原始资源策略问题、C-first 可信核心、Fast/Slow Path、确定性 Guard 和
 Linux reference lab 都继续保留；新增的是行动权、事实资格、治理权和工程连续性边界。

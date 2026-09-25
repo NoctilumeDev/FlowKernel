@@ -24,10 +24,14 @@ FlowKernel 的长期目标是构建一个 C-first 实验内核，研究系统能
 来源记录、外部验收和恢复边界说明这类策略凭什么获得行动权，以及行动以后什么才有资格成为
 事实。
 
-## “AI 操作系统”的含义
+## “操作系统级信任基座”的含义
 
-本项目中的 AI Execution OS 不是“由模型接管内核”。它表示一个以受限 freestanding C 为
-可信核心、以显式状态机组织特权转换、在慢路径接受受约束策略建议的实验系统：
+FlowKernel 的公开定位是面向不可信智能体执行的 **OS-level trust and execution substrate**。
+这里的“操作系统级”描述 authority、隔离、资源所有权、生命周期、撤销、恢复和可观察性的
+问题等级，不表示要替代 Linux、Windows 或 macOS，也不表示已经存在跨平台实现。
+
+本项目中的 AI Execution OS 是上述研究方向的简称。当前计划中的实验目标仍是一个以受限
+freestanding C 为可信核心、以显式状态机组织特权转换、在慢路径接受受约束策略建议的系统：
 
 ```text
 Principal -> Intent -> Propose -> Authorize -> Act -> Observe -> Accept
@@ -38,6 +42,16 @@ Principal -> Intent -> Propose -> Authorize -> Act -> Observe -> Accept
 是否明确。FlowKernel 研究的是能否让学习策略承担一部分原本由人工阈值和启发式规则完成的
 `Propose`，同时由 C 状态机和 Guard 保留动作边界、安全不变量和执行主权。人类审批改变的
 是授权条件，不是事实资格；执行器报告成功后，仍需要独立事实源判断目标是否成立。
+
+同一组语义未来可能通过不同 enforcement backend 落到现有宿主：Linux 可以使用 namespace、
+cgroup、seccomp、LSM 或其他已验证 primitive；Windows 与 macOS 也需要各自的系统能力映射。
+这些只构成待审的可移植性方向。当前仓库只冻结 C-first target 与 Linux reference lab 的研究
+边界，不预先宣称 Windows/macOS adapter、统一 ABI 或跨平台兼容已经成立。
+
+FlowKernel 也不尝试让内核理解自然语言“真实意图”。上层必须把人类目标收紧成机器可检查的
+Principal、Object、动作、范围、预算、前置状态、租约、撤销和恢复条件；策略只在这些硬约束
+内优化目标。事实观察可以来自内核、runtime、journal、独立 monitor 或外部 verifier，但不能
+只由被审 Agent 的自我报告取得资格。
 
 详细定义见 [执行操作系统宪法](execution-os-constitution.md)。
 
